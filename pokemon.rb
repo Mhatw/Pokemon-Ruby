@@ -1,11 +1,26 @@
 # require neccesary files
-
+require_relative "pokedex/pokemons.rb"
 class Pokemon
+  attr_reader :pokemon_name, :pokemon, :level, :type, :hp, :p_attack, :defense
+  attr_reader :special_attack, :special_defense, :speed, :experience_points
   # include neccesary modules
 
   # (complete parameters)
-  def initialize
+  def initialize (pokemon_name, pokemon)
     # Retrieve pokemon info from Pokedex and set instance variables
+    pokedex =  Pokedex::POKEMONS[pokemon]
+    @pokemon_name = pokemon_name
+    @pokemon = pokemon
+    @level = 1
+    @type = pokedex[:type].join(", ")
+    @hp = pokedex[:base_stats][:hp]
+    @p_attack = pokedex[:base_stats][:attack]
+    @defense = pokedex[:base_stats][:defense]
+    @special_attack = pokedex[:base_stats][:special_attack]
+    @special_defense = pokedex[:base_stats][:special_defense]
+    @speed = pokedex[:base_stats][:speed]
+    @experience_points = 0
+
     # Calculate Individual Values and store them in instance variable
     # Create instance variable with effort values. All set to 0
     # Store the level in instance variable
