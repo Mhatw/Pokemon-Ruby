@@ -1,5 +1,6 @@
 # require neccesary files
-require_relative "player"
+require_relative "player.rb"
+
 
 class Game
   def start
@@ -44,9 +45,8 @@ Give your pokemon a name?"
     p pokemon_name = pokemon if pokemon_name.empty? 
     puts "#{name.upcase}, raise your young #{pokemon_name.upcase} by making it fight!
 When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
-    
     # Then create a Player with that information and store it in @player
-    p Player.New(name, pokemon, pokemon_name)
+    p player = Player.new(name, pokemon, pokemon_name)
     
     # Suggested game flow
     action = menu

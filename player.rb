@@ -1,5 +1,5 @@
 # require neccesary files
-require_relative "game"
+
 class Player
   attr_reader :name, :pokemon, :pokemon_name
   # (Complete parameters)
