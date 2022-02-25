@@ -78,6 +78,7 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
   def train
     # Complete this
+    bot = Bot.new
   end
 
   def challenge_leader
