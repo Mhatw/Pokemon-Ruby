@@ -1,9 +1,13 @@
 # require neccesary files
-
+require_relative "game"
 class Player
+  attr_reader :name, :pokemon, :pokemon_name
   # (Complete parameters)
-  def initialize
+  def initialize(name, pokemon, pokemon_name)
     # Complete this
+    @name = name
+    @pokemon = pokemon
+    @pokemon_name = pokemon_name
   end
 
   def select_move
