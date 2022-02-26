@@ -90,7 +90,7 @@ What do you want to do now?\n
       train_action = gets.chomp
     end
     if train_action == "Fight"
-      # p prepare_for_battle  #######################################
+      @player.pokemon.prepare_for_battle
       fight
     end
 
@@ -135,16 +135,17 @@ This game was created with love by: [your names]"
   def fight
      #falta esto
     fight_puts
-    @player_hp_saved = @player.pokemon_name.hp ###recordar borrar
-    @bot_hp_saved = @bot.pokemon_name.hp 
-    p @player.pokemon_name.hp
+    # @player_hp_saved = @player.pokemon_name.hp ###recordar borrar
+    # @bot_hp_saved = @bot.pokemon_name.hp 
+
     until @player_hp_saved < 0 || @bot_hp_saved < 0
       @train_action = ""
       until @train_action == @player.pokemon_name.moves[0] || @train_action == @player.pokemon_name.moves[1]
         print "> "
         @train_action = gets.chomp
         @train_action_bot = @bot.pokemon_name.moves[rand(0..1)]
-        attack ####################
+        prompt_algo = attack
+
         p @player_hp_saved -= 4 #por mientras pa que le peguen
 
       end
@@ -181,15 +182,26 @@ HP: #{@bot.pokemon_name.hp}
     puts "--------------------------------------------------
 #{@player.pokemon_name.pokemon_name} used #{@train_action.upcase}!"
     # Accuracy check
-    p @train_action
-    p @train_action_bot
-    p priority_attack(@train_action, @train_action_bot)
-    
-      ### player ataca first
-      ## bot ataca first  
+    p @train_action    ############################################################
+    p @train_action_bot #############################################################
+    round_winner = priority_attack(@train_action, @train_action_bot)
+    p round_winner
     # If the movement is not missed
-    # -- Calculate base damage
+    stats_p = @player.pokemon_name ###################
+    stats_b = @bot.pokemon_name ###################
+    missed = false
+    p missed = true if rand(100) > @moves[round_winner][:accuracy]
+    p "missed?" #########################
+    p missed
     # -- Critical Hit check
+    critical_hit = false
+    p critical_hit = true if rand(16) < 1
+    p "critical_hit" #########################
+    p critical_hit
+    # -- Calculate base damage
+    
+
+    
     # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
     # -- Effectiveness check
     # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
@@ -201,12 +213,12 @@ HP: #{@bot.pokemon_name.hp}
   end
 
   def priority_attack(train_action, train_action_bot) ######por mientras
-    moves =  Pokedex::MOVES
+    @moves =  Pokedex::MOVES
     stats_p = @player.pokemon_name
     stats_b = @bot.pokemon_name
 
-    if moves[train_action][:priority] != moves[train_action_bot][:priority]
-      if moves[train_action][:priority] > moves[train_action_bot][:priority]
+    if @moves[train_action][:priority] != @moves[train_action_bot][:priority]
+      if @moves[train_action][:priority] > @moves[train_action_bot][:priority]
         puts "priority"
         train_action
       else

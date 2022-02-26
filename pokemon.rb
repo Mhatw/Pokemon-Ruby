@@ -44,6 +44,7 @@ class Pokemon
   
   def prepare_for_battle
     # Complete this
+    puts "si funciona"
     @player_hp_saved = @player.pokemon_name.hp
     @bot_hp_saved = @bot.pokemon_name.hp
 
