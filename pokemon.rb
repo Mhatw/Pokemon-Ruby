@@ -1,9 +1,9 @@
 # require neccesary files
 require_relative "pokedex/pokemons.rb"
 class Pokemon
-  attr_reader :pokemon_name, :pokemon, :level, :type, :hp, :p_attack, :defense
+  attr_reader :pokemon_name, :pokemon, :level, :type, :hp, :p_attack, :defense, :moves
   attr_reader :special_attack, :special_defense, :speed, :experience_points, :stat_individual_values, :stat_effort
-  attr_writer :level
+  attr_writer :level, :hp
   # include neccesary modules
 
   # (complete parameters)
@@ -24,6 +24,7 @@ class Pokemon
     @special_defense = calculate_stats(pokedex[:base_stats][:special_defense], @stat_individual_values[:special_defense], @stat_effort[:special_defense], @level)  
     @speed = calculate_stats(pokedex[:base_stats][:speed], @stat_individual_values[:speed], @stat_effort[:speed], @level)  
     @experience_points = 0
+    @moves = pokedex[:moves]
     # Calculate Individual Values and store them in instance variable
     # Create instance variable with effort values. All set to 0
     # Store the level in instance variable
@@ -40,8 +41,12 @@ class Pokemon
     # (base_experience * level / 7.0).floor
 
   end
+  
   def prepare_for_battle
     # Complete this
+    @player_hp_saved = @player.pokemon_name.hp
+    @bot_hp_saved = @bot.pokemon_name.hp
+
   end
 
   def receive_damage

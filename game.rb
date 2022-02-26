@@ -78,9 +78,9 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
   def train
     # Complete this
-    bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 2))
+    @bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 2))
     puts "#{@player.name} challenge Random Person for training
-Random Person has a #{bot.pokemon_name.pokemon_name} level #{bot.pokemon_name.level}
+Random Person has a #{@bot.pokemon_name.pokemon_name} level #{@bot.pokemon_name.level}
 What do you want to do now?\n
 1. Fight        2. Leave "
     train_action = ""
@@ -88,7 +88,10 @@ What do you want to do now?\n
       print "> "
       train_action = gets.chomp
     end
-    # fight if train_action == "Fight"
+    if train_action == "Fight"
+      p prepare_for_battle  #######################################
+      fight
+    end
 
 # Random Person has a Onix level 4
 # What do you want to do now?"
@@ -127,6 +130,49 @@ This game was created with love by: [your names]"
     
 1. Stats        2. Train        3. Leader       4. Exit "
   end
+
+  def fight
+     #falta esto
+    fight_puts
+    p @player.pokemon_name.hp
+    until @player_hp_saved < 0 || @bot_hp_saved < 0
+      train_action = ""
+      until train_action == @player.pokemon_name.moves[0] || train_action == @player.pokemon_name.moves[1]
+        print "> "
+        train_action = gets.chomp
+        p @player_hp_saved -= 4 #por mientras pa que le peguen
+
+      end
+      @player.pokemon_name.level = 10  ###por mientra para que suba de lvl
+
+    end
+    p @player_hp_saved    # para saber si sale con menos de 0 de vida de la pelea
+    # llamar a los metodos de pokemon 
+    p @player_hp_saved = @player.pokemon_name.hp # para regenerar la vida al final no es necesario per es pa mirar
+
+    # fight_puts if #mayor
+    #actualizar la vida 
+    #ataque  = ""
+  end
+  
+  def fight_puts
+    puts "Random Person sent out #{@bot.pokemon_name.pokemon_name.upcase}!
+#{@player.name} sent out #{@player.pokemon_name.pokemon_name.upcase}!
+-------------------Battle Start!-------------------
+  
+#{@player.name}'s #{@player.pokemon_name.pokemon_name} - Level #{@player.pokemon_name.level}
+HP: #{@player.pokemon_name.hp}
+Random Person's #{@bot.pokemon_name.pokemon_name} - Level #{@bot.pokemon_name.level}
+HP: #{@bot.pokemon_name.hp}
+  
+#{@player.name}, select your move:
+  
+1. #{@player.pokemon_name.moves[0]}      2. #{@player.pokemon_name.moves[1]}  "
+
+  end
+
+
+
 end
 
 
