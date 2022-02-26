@@ -52,7 +52,7 @@ Give your pokemon a name?"
 When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
     # Then create a Player with that information and store it in @player
-    @player = Player.new(name, pokemon, pokemon_name)
+    @player = Player.new(name, pokemon, pokemon_name, 1)
     @player.pokemon_name.type
     # Suggested game flow
     menu
@@ -78,7 +78,20 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
   def train
     # Complete this
-    bot = Bot.new
+    bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 2))
+    puts "#{@player.name} challenge Random Person for training
+Random Person has a #{bot.pokemon_name.pokemon_name} level #{bot.pokemon_name.level}
+What do you want to do now?\n
+1. Fight        2. Leave "
+    train_action = ""
+    until train_action == "Fight" || train_action == "Leave"
+      print "> "
+      train_action = gets.chomp
+    end
+    # fight if train_action == "Fight"
+
+# Random Person has a Onix level 4
+# What do you want to do now?"
 
   end
 
