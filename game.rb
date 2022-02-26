@@ -3,6 +3,7 @@ require_relative "player.rb"
 require_relative "get_input"
 require_relative "pokemon.rb"
 require_relative "pokedex/pokemons.rb"
+require_relative "pokedex/moves.rb"
 include GetInput
 
 class Game
@@ -78,7 +79,7 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
   def train
     # Complete this
-    @bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 2))
+    @bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 0))
     puts "#{@player.name} challenge Random Person for training
 Random Person has a #{@bot.pokemon_name.pokemon_name} level #{@bot.pokemon_name.level}
 What do you want to do now?\n
@@ -89,7 +90,7 @@ What do you want to do now?\n
       train_action = gets.chomp
     end
     if train_action == "Fight"
-      p prepare_for_battle  #######################################
+      # p prepare_for_battle  #######################################
       fight
     end
 
@@ -134,12 +135,16 @@ This game was created with love by: [your names]"
   def fight
      #falta esto
     fight_puts
+    @player_hp_saved = @player.pokemon_name.hp ###recordar borrar
+    @bot_hp_saved = @bot.pokemon_name.hp 
     p @player.pokemon_name.hp
     until @player_hp_saved < 0 || @bot_hp_saved < 0
-      train_action = ""
-      until train_action == @player.pokemon_name.moves[0] || train_action == @player.pokemon_name.moves[1]
+      @train_action = ""
+      until @train_action == @player.pokemon_name.moves[0] || @train_action == @player.pokemon_name.moves[1]
         print "> "
-        train_action = gets.chomp
+        @train_action = gets.chomp
+        @train_action_bot = @bot.pokemon_name.moves[rand(0..1)]
+        attack ####################
         p @player_hp_saved -= 4 #por mientras pa que le peguen
 
       end
@@ -171,8 +176,60 @@ HP: #{@bot.pokemon_name.hp}
 
   end
 
+  def attack
+    # Print attack message 'Tortuguita used MOVE!'
+    puts "--------------------------------------------------
+#{@player.pokemon_name.pokemon_name} used #{@train_action.upcase}!"
+    # Accuracy check
+    p @train_action
+    p @train_action_bot
+    p priority_attack(@train_action, @train_action_bot)
+    
+      ### player ataca first
+      ## bot ataca first  
+    # If the movement is not missed
+    # -- Calculate base damage
+    # -- Critical Hit check
+    # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
+    # -- Effectiveness check
+    # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
+    # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
+    # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
+    # ---- "It doesn't affect [target name]!" when effectivenes is 0
+    # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
+    # Else, print "But it MISSED!"
+  end
 
+  def priority_attack(train_action, train_action_bot) ######por mientras
+    moves =  Pokedex::MOVES
+    stats_p = @player.pokemon_name
+    stats_b = @bot.pokemon_name
 
+    if moves[train_action][:priority] != moves[train_action_bot][:priority]
+      if moves[train_action][:priority] > moves[train_action_bot][:priority]
+        puts "priority"
+        train_action
+      else
+        puts "priority bot"
+        train_action_bot
+      end
+    elsif stats_p.speed != stats_b.speed
+      if stats_p.speed > stats_b.speed
+        puts "speed"
+        puts stats_p.speed 
+        puts stats_b.speed 
+        train_action
+      else
+        puts "speed bot"
+        puts stats_p.speed 
+        puts stats_b.speed 
+        train_action_bot
+      end
+    else 
+      puts "a la dios"
+      [train_action, train_action_bot].sample
+    end
+  end
 end
 
 

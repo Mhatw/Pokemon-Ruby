@@ -61,21 +61,29 @@ class Pokemon
     # Complete this
   end
 
-  def attack(target)
-    # Print attack message 'Tortuguita used MOVE!'
-    # Accuracy check
-    # If the movement is not missed
-    # -- Calculate base damage
-    # -- Critical Hit check
-    # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
-    # -- Effectiveness check
-    # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
-    # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
-    # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
-    # ---- "It doesn't affect [target name]!" when effectivenes is 0
-    # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
-    # Else, print "But it MISSED!"
-  end
+#   def attack(target, train_action, train_action_bot)
+#     # Print attack message 'Tortuguita used MOVE!'
+#     puts "--------------------------------------------------
+# #{@player.pokemon_name.pokemon_name}used #{train_action.upcase}!"
+#     # Accuracy check
+#     stats_p = @player.pokemon_name
+#     stats_b = @bot.pokemon_name
+#     priority_attack (train_action, train_action_bot)
+    
+#       ### player ataca first
+#       ## bot ataca first  
+#     # If the movement is not missed
+#     # -- Calculate base damage
+#     # -- Critical Hit check
+#     # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
+#     # -- Effectiveness check
+#     # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
+#     # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
+#     # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
+#     # ---- "It doesn't affect [target name]!" when effectivenes is 0
+#     # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
+#     # Else, print "But it MISSED!"
+#   end
 
   def increase_stats(target)
     # Increase stats base on the defeated pokemon and print message "#[pokemon name] gained [amount] experience points"
@@ -86,4 +94,24 @@ class Pokemon
 
   # private methods:
   # Create here auxiliary methods
+  # def priority_attack (train_action, train_action_bot)
+  #   moves =  Pokedex::MOVES[train_action]
+  #   stats_p = @player.pokemon_name
+  #   stats_b = @bot.pokemon_name
+
+  #   if moves[train_action][:priority] != moves[train_action_bot][:priority]
+  #     if moves[train_action][:priority] > moves[train_action_bot][:priority]
+  #       train_action
+  #     else
+  #       train_action_bot
+  #     end
+  #   elsif stats_p.speed != stats_b.speed
+  #     if stats_p.speed > stats_b.speed
+  #       train_action
+  #     else
+  #       train_action_bot
+  #     end
+  #   else 
+  #     [train_action, train_accion_bot].sample
+  #   end
 end

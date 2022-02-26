@@ -2,7 +2,7 @@
 require_relative "pokemon.rb"
 
 class Player
-  attr_reader :name, :pokemon, :pokemon_name, :level
+  attr_reader :name, :pokemon, :pokemon_name, :level, :speed, :priority
   attr_writer :level
   pokedex =  Pokedex::POKEMONS
   # (Complete parameters)
