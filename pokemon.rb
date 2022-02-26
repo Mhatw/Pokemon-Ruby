@@ -2,7 +2,7 @@
 require_relative "pokedex/pokemons.rb"
 class Pokemon
   attr_reader :pokemon_name, :pokemon, :level, :type, :hp, :p_attack, :defense
-  attr_reader :special_attack, :special_defense, :speed, :experience_points
+  attr_reader :special_attack, :special_defense, :speed, :experience_points, :stat_individual_values, :stat_effort
   # include neccesary modules
 
   # (complete parameters)
@@ -13,14 +13,16 @@ class Pokemon
     @pokemon = pokemon
     @level = 1
     @type = pokedex[:type].join(", ")
-    @hp = pokedex[:base_stats][:hp]
-    @p_attack = pokedex[:base_stats][:attack]
-    @defense = pokedex[:base_stats][:defense]
-    @special_attack = pokedex[:base_stats][:special_attack]
-    @special_defense = pokedex[:base_stats][:special_defense]
-    @speed = pokedex[:base_stats][:speed]
-    @experience_points = 0
 
+    @stat_individual_values = { hp: rand(1..30), attack: rand(1..30), defense: rand(1..30), special_attack: rand(1..30), special_defense: rand(1..30), speed: rand(1..30) }
+    @stat_effort = { hp: 0, attack: 0, defense: 0, special_attack: 0, special_defense: 0, speed: 0 }
+    @hp = ((2 * pokedex[:base_stats][:hp] + @stat_individual_values[:hp] + @stat_effort[:hp]) * @level / 100 + @level + 10).floor
+    @p_attack = calculate_stats(pokedex[:base_stats][:attack], @stat_individual_values[:attack], @stat_effort[:attack], @level)     
+    @defense = calculate_stats(pokedex[:base_stats][:defense], @stat_individual_values[:defense], @stat_effort[:defense], @level)  
+    @special_attack = calculate_stats(pokedex[:base_stats][:special_attack], @stat_individual_values[:special_attack], @stat_effort[:special_attack], @level)  
+    @special_defense = calculate_stats(pokedex[:base_stats][:special_defense], @stat_individual_values[:special_defense], @stat_effort[:special_defense], @level)  
+    @speed = calculate_stats(pokedex[:base_stats][:speed], @stat_individual_values[:speed], @stat_effort[:speed], @level)  
+    @experience_points = 0
     # Calculate Individual Values and store them in instance variable
     # Create instance variable with effort values. All set to 0
     # Store the level in instance variable
@@ -29,6 +31,14 @@ class Pokemon
     # Calculate pokemon stats and store them in instance variable
   end
 
+  def calculate_stats(base_stat, stat_individual_values, stat_effort, level)
+    ((2 * base_stat + stat_individual_values + stat_effort) * level / 100 + 5).floor
+  end
+
+  def gain_experience
+    # (base_experience * level / 7.0).floor
+
+  end
   def prepare_for_battle
     # Complete this
   end

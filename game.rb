@@ -52,8 +52,8 @@ Give your pokemon a name?"
 When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
 
     # Then create a Player with that information and store it in @player
-    p @player = Player.new(name, pokemon, pokemon_name)
-    p @player.pokemon_name.type
+    @player = Player.new(name, pokemon, pokemon_name)
+    @player.pokemon_name.type
     # Suggested game flow
     menu
     action = get_input
@@ -79,6 +79,7 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
   def train
     # Complete this
     bot = Bot.new
+
   end
 
   def challenge_leader

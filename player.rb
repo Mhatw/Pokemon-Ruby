@@ -3,10 +3,10 @@ require_relative "pokemon.rb"
 
 class Player
   attr_reader :name, :pokemon, :pokemon_name
+  pokedex =  Pokedex::POKEMONS
   # (Complete parameters)
   def initialize(name, pokemon, pokemon_name)
     # Complete this
-    pokedex =  Pokedex::POKEMONS
     @name = name
     @pokemon = pokemon
     @pokemon_name = Pokemon.new(pokemon_name, pokemon)
@@ -24,6 +24,7 @@ class Bot < Player
     pokedex =  Pokedex::POKEMONS
     @name = "Random Person"
     @pokemon = pokedex.keys.sample
+    @pokemon_name = Pokemon.new(@pokemon, @pokemon)
   end
 
 end
