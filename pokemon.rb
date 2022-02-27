@@ -9,22 +9,23 @@ class Pokemon
   # (complete parameters)
   def initialize (pokemon_name, pokemon, level)
     # Retrieve pokemon info from Pokedex and set instance variables
-    pokedex =  Pokedex::POKEMONS[pokemon]
+    @pokedex =  Pokedex::POKEMONS[pokemon]
     @pokemon_name = pokemon_name
     @pokemon = pokemon
     @level = level
-    @type = pokedex[:type].join(", ")
+    @type = @pokedex[:type].join(", ")
 
-    @stat_individual_values = { hp: rand(1..30), attack: rand(1..30), defense: rand(1..30), special_attack: rand(1..30), special_defense: rand(1..30), speed: rand(1..30) }
+    @stat_individual_values = { hp: rand(30), attack: rand(30), defense: rand(30), special_attack: rand(30), special_defense: rand(30), speed: rand(30) }
     @stat_effort = { hp: 0, attack: 0, defense: 0, special_attack: 0, special_defense: 0, speed: 0 }
-    @hp = ((2 * pokedex[:base_stats][:hp] + @stat_individual_values[:hp] + @stat_effort[:hp]) * @level / 100 + @level + 10).floor
-    @p_attack = calculate_stats(pokedex[:base_stats][:attack], @stat_individual_values[:attack], @stat_effort[:attack], @level)     
-    @defense = calculate_stats(pokedex[:base_stats][:defense], @stat_individual_values[:defense], @stat_effort[:defense], @level)  
-    @special_attack = calculate_stats(pokedex[:base_stats][:special_attack], @stat_individual_values[:special_attack], @stat_effort[:special_attack], @level)  
-    @special_defense = calculate_stats(pokedex[:base_stats][:special_defense], @stat_individual_values[:special_defense], @stat_effort[:special_defense], @level)  
-    @speed = calculate_stats(pokedex[:base_stats][:speed], @stat_individual_values[:speed], @stat_effort[:speed], @level)  
+
+    @hp = calc_stats(:hp) + @level + 5
+    @p_attack = calc_stats(:attack)     
+    @defense = calc_stats(:defense)  
+    @special_attack = calc_stats(:special_attack)  
+    @special_defense = calc_stats(:special_defense)  
+    @speed = calc_stats(:speed)  
     @experience_points = 0
-    @moves = pokedex[:moves]
+    @moves = @pokedex[:moves]
     # Calculate Individual Values and store them in instance variable
     # Create instance variable with effort values. All set to 0
     # Store the level in instance variable
@@ -33,52 +34,14 @@ class Pokemon
     # Calculate pokemon stats and store them in instance variable
   end
 
-  def calculate_stats(base_stat, stat_individual_values, stat_effort, level)
-    ((2 * base_stat + stat_individual_values + stat_effort) * level / 100 + 5).floor
+  def calc_stats(key)
+    ((2 * @pokedex[:base_stats][key] + @stat_individual_values[key] + @stat_effort[key]) * @level / 100 + 5).floor
   end
 
   def gain_experience
     # (base_experience * level / 7.0).floor
 
   end
-  
-  
-
-  def receive_damage
-    # Complete this
-  end
-
-  def set_current_move
-    # Complete this
-  end
-
-  def fainted?
-    # Complete this
-  end
-
-#   def attack(target, train_action, train_action_bot)
-#     # Print attack message 'Tortuguita used MOVE!'
-#     puts "--------------------------------------------------
-# #{@player.pokemon_name.pokemon_name}used #{train_action.upcase}!"
-#     # Accuracy check
-#     stats_p = @player.pokemon_name
-#     stats_b = @bot.pokemon_name
-#     priority_attack (train_action, train_action_bot)
-    
-#       ### player ataca first
-#       ## bot ataca first  
-#     # If the movement is not missed
-#     # -- Calculate base damage
-#     # -- Critical Hit check
-#     # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
-#     # -- Effectiveness check
-#     # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
-#     # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
-#     # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
-#     # ---- "It doesn't affect [target name]!" when effectivenes is 0
-#     # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
-#     # Else, print "But it MISSED!"
-#   end
 
   def increase_stats(target)
     # Increase stats base on the defeated pokemon and print message "#[pokemon name] gained [amount] experience points"

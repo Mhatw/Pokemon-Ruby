@@ -72,6 +72,7 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
         action = menu
       else
         action = get_input
+        
       end
     end
 
@@ -81,7 +82,7 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
   def train
     # Complete this
     @bot = Bot.new(rand(@player.pokemon_name.level..@player.pokemon_name.level + 0))
-    puts "#{@player.name} challenge Random Person for training
+    puts "\n#{@player.name} challenge Random Person for training
 Random Person has a #{@bot.pokemon_name.pokemon_name} level #{@bot.pokemon_name.level}
 What do you want to do now?\n
 1. Fight        2. Leave "

@@ -11,121 +11,140 @@ class Battle
   def start
     # Prepare the Battle (print messages and prepare pokemons)
     prepare_for_battle
+
     fight
-    # Until one pokemon faints
-    # --Print Battle Status
-    # --Both players select their moves
-
-    # --Calculate which go first and which second
-
-    # --First attack second
-    # --If second is fainted, print fainted message
-    # --If second not fainted, second attack first
-    # --If first is fainted, print fainted message
-
-    # Check which player won and print messages
+    
     # If the winner is the Player increase pokemon stats
   end
   
   def fight
-    #falta esto
-   fight_puts
 
-   until @player_hp_saved < 1 || @bot_hp_saved < 1
-     @train_action = ""
-     until @train_action == @player.pokemon_name.moves[0] || @train_action == @player.pokemon_name.moves[1]
-       print "> "
-       @train_action = gets.chomp
-       @train_action_bot = @bot.pokemon_name.moves[rand(0..1)]
-       prompt_algo = attack
-
-       p @bot_hp_saved -= 11000 #por mientras pa que le peguen
-
-     end
-     
+    puts "\nRandom Person sent out #{@bot.pokemon_name.pokemon_name.upcase}!
+#{@player.name} sent out #{@player.pokemon_name.pokemon_name.upcase}!
+    -------------------Battle Start!-------------------"
+    until @player_hp_saved < 1 || @bot_hp_saved < 1 ###acordar sacar el loop
+      fight_status(@player_hp_saved, @bot_hp_saved)
+      @train_action = ""
+      until @train_action == @player.pokemon_name.moves[0] || @train_action == @player.pokemon_name.moves[1]
+        print "\n1. #{@player.pokemon_name.moves[0]}      2. #{@player.pokemon_name.moves[1]} \n> "
+        @train_action = gets.chomp
+      end
+      # --Bot player select move
+      @train_action_bot = @bot.pokemon_name.moves[rand(0..1)]
+      # Print attack message 'Tortuguita used MOVE!'
+      # Accuracy check
+      @round_arr = priority_attack(@train_action, @train_action_bot)
+      puts "\n--------------------------------------------------
+#{@round_arr[2].pokemon_name.pokemon_name} used #{@round_arr[0].upcase}!"
+      life_loose_w = attack(0, 2, 3)
+      # 3
+      receive_damage(life_loose_w, 2)
+      if are_you_live == true
+      puts "--------------------------------------------------
+#{@round_arr[3].pokemon_name.pokemon_name} used #{@round_arr[1].upcase}!"
+      life_loose_l = attack(1, 3 ,2)
+      receive_damage(life_loose_l, 3)
+      puts "-----------------------la barra---------------------------"    
+      end
     end
-    @player.pokemon_name.level += 10  ###por mientra para que suba de lvl
-   p @player_hp_saved    # para saber si sale con menos de 0 de vida de la pelea
-   # llamar a los metodos de pokemon 
-   p @player_hp_saved = @player.pokemon_name.hp # para regenerar la vida al final no es necesario per es pa mirar
-
-   # fight_puts if #mayor
-   #actualizar la vida 
-   #ataque  = ""
  end
 
- def fight_puts
-  puts "Random Person sent out #{@bot.pokemon_name.pokemon_name.upcase}!
-#{@player.name} sent out #{@player.pokemon_name.pokemon_name.upcase}!
--------------------Battle Start!-------------------
+  def are_you_live
+    if !@player_hp_saved.positive?
+      puts "-----------------------22---------------------------"
+      (puts "#{@player.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@bot.pokemon_name.pokemon_name} WINS!" )
+      return false
+    elsif !@bot_hp_saved.positive?
+      puts "-----------------------22---------------------------"
+      (puts "#{@bot.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@player.pokemon_name.pokemon_name} WINS!" )
+      return false
+    end
+    return true
+  end
 
-#{@player.name}'s #{@player.pokemon_name.pokemon_name} - Level #{@player.pokemon_name.level}
-HP: #{@player.pokemon_name.hp}
+  def receive_damage(life_loose, i)
+  # Complete this
+    @round_arr[i] == @player ? @bot_hp_saved -= life_loose : @player_hp_saved -= life_loose
+  end
+
+ def fight_status(player, bot)
+
+  puts "#{@player.name}'s #{@player.pokemon_name.pokemon_name} - Level #{@player.pokemon_name.level}
+HP: #{player}
 Random Person's #{@bot.pokemon_name.pokemon_name} - Level #{@bot.pokemon_name.level}
-HP: #{@bot.pokemon_name.hp}
+HP: #{bot}
 
-#{@player.name}, select your move:
-
-1. #{@player.pokemon_name.moves[0]}      2. #{@player.pokemon_name.moves[1]}  "
-
+#{@player.name}, select your move:"
 end
 
-def attack
-  # Print attack message 'Tortuguita used MOVE!'
-  puts "--------------------------------------------------
-#{@player.pokemon_name.pokemon_name} used #{@train_action.upcase}!"
+def attack(ataque, p_win, p_loose)
 
-  # Accuracy check
-  p @train_action    ############################################################
-  p @train_action_bot #############################################################
-  round_winner = priority_attack(@train_action, @train_action_bot)
-  stats_p = @player.pokemon_name ################### Refactorizar var de instancias
-  stats_b = @bot.pokemon_name ###################Refactorizar var de instancias
-  missed = rand(100) > @moves[round_winner[0]][:accuracy] ? true : false
+
+  # -- Missed?
+  missed = missed(ataque)
   # -- Critical Hit check
-  p critical_hit = rand(16) < 1 ? true : false
-
-  # -- Calculate base damage #### hacerla metodo
-  p empty_type_special = Pokedex::SPECIAL_MOVE_TYPE & Pokedex::POKEMONS[round_winner[1].pokemon_name.pokemon][:type]
-  p empty_type_special = empty_type_special.empty? # give True if is empty
-  p offensive_stat = empty_type_special == false ? round_winner[1].pokemon_name.special_attack : round_winner[1].pokemon_name.p_attack
-  p move_power = @moves[round_winner[0]][:power]
-  p target_defensive_stat = empty_type_special == false ? round_winner[2].pokemon_name.special_defense : round_winner[2].pokemon_name.defense
-  p level = round_winner[1].pokemon_name.level
-  p base_damage = (((2 * level / 5.0 + 2).floor * offensive_stat * move_power / target_defensive_stat).floor / 50.0).floor + 2
-#################################################################################
-######################## hasta aca llegamos #####################################
-  
+  critical_hit = critical_method
+  # -- Calculate base damage
+  base_damage = bdmg_method(p_win , p_loose)
   # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
-  # -- Effectiveness check
+  base_damage *= 1.5 if critical_hit == true
   # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
+  damage = (base_damage * effectiveness)
+  # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
+  missed == false ? (puts "And it hit #{@round_arr[3].pokemon_name.pokemon_name} with #{damage} damage") : (puts "But it MISSED!")
+  # Else, print "But it MISSED!"
+  missed == false ? damage : 0
+end
+
+def missed(i)
+  rand(100) > @moves[@round_arr[i]][:accuracy]
+end
+
+# -- Effectiveness check
+def effectiveness
   # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
   # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
   # ---- "It doesn't affect [target name]!" when effectivenes is 0
-  # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
-  # Else, print "But it MISSED!"
+  1 # give a multiplier
+end
+
+# -- Calculate base damage 2
+def bdmg_method(p_win , p_loose)  #hacer funcion off y deff
+  empty_type_special = [Pokedex::SPECIAL_MOVE_TYPE & Pokedex::POKEMONS[@round_arr[p_win].pokemon_name.pokemon][:type]].empty?
+  offensive_stat = empty_type_special == false ? @round_arr[p_win].pokemon_name.special_attack : @round_arr[p_win].pokemon_name.p_attack
+  move_power = @moves[@round_arr[p_win - 2]][:power]
+  target_defensive_stat = empty_type_special == false ? @round_arr[p_loose].pokemon_name.special_defense : @round_arr[p_loose].pokemon_name.defense
+  level = @round_arr[p_win].pokemon_name.level
+  (((2 * level / 5.0 + 2).floor * offensive_stat * move_power / target_defensive_stat).floor / 50.0).floor + 2
+end
+
+def critical_method
+  false
+  if rand(16) < 1
+    puts "It was CRITICAL hit!"
+    true
+  end
 end
 
 def priority_attack(train_action, train_action_bot) 
   @moves =  Pokedex::MOVES
-
-  stats_p = @player.pokemon_name
-  stats_b = @bot.pokemon_name
+  # [mov ganador , mov perdedor, ganador, perdedor]
   arr = []
   if @moves[train_action][:priority] != @moves[train_action_bot][:priority]
+
     if @moves[train_action][:priority] > @moves[train_action_bot][:priority]
-      arr = [train_action, @player, @bot]
+      arr = [train_action, train_action_bot, @player, @bot]
     else
-      arr = [train_action_bot, @bot, @player]
+      arr = [train_action_bot, train_action, @bot, @player]
     end
-  elsif stats_p.speed != stats_b.speed
-    if stats_p.speed > stats_b.speed
-      arr = [train_action, @player, @bot]
+  elsif @player.pokemon_name.speed != @bot.pokemon_name.speed
+    if @player.pokemon_name.speed > @bot.pokemon_name.speed
+      arr = [train_action, train_action_bot, @player, @bot]
     else
-      arr = [train_action_bot, @bot, @player]
+      arr = [train_action_bot, train_action, @bot, @player]
     end
   else 
-    arr = [[train_action, @player, @bot], [train_action_bot, @bot, @player]].sample
+    arr = [[train_action, train_action_bot, @player, @bot], [train_action_bot, train_action, @bot, @player]].sample
   end
 end
 
