@@ -4,6 +4,7 @@ require_relative "get_input"
 require_relative "pokemon.rb"
 require_relative "pokedex/pokemons.rb"
 require_relative "pokedex/moves.rb"
+require_relative "battle.rb"
 include GetInput
 
 class Game
@@ -90,8 +91,8 @@ What do you want to do now?\n
       train_action = gets.chomp
     end
     if train_action == "Fight"
-      @player.pokemon.prepare_for_battle
-      fight
+      # @player.pokemon_name.prepare_for_battle(@player, @bot)
+      algo_saldra = Battle.new(@player, @bot) ###################
     end
 
 # Random Person has a Onix level 4
@@ -131,117 +132,7 @@ This game was created with love by: [your names]"
     
 1. Stats        2. Train        3. Leader       4. Exit "
   end
-
-  def fight
-     #falta esto
-    fight_puts
-    # @player_hp_saved = @player.pokemon_name.hp ###recordar borrar
-    # @bot_hp_saved = @bot.pokemon_name.hp 
-
-    until @player_hp_saved < 0 || @bot_hp_saved < 0
-      @train_action = ""
-      until @train_action == @player.pokemon_name.moves[0] || @train_action == @player.pokemon_name.moves[1]
-        print "> "
-        @train_action = gets.chomp
-        @train_action_bot = @bot.pokemon_name.moves[rand(0..1)]
-        prompt_algo = attack
-
-        p @player_hp_saved -= 4 #por mientras pa que le peguen
-
-      end
-      @player.pokemon_name.level = 10  ###por mientra para que suba de lvl
-
-    end
-    p @player_hp_saved    # para saber si sale con menos de 0 de vida de la pelea
-    # llamar a los metodos de pokemon 
-    p @player_hp_saved = @player.pokemon_name.hp # para regenerar la vida al final no es necesario per es pa mirar
-
-    # fight_puts if #mayor
-    #actualizar la vida 
-    #ataque  = ""
-  end
   
-  def fight_puts
-    puts "Random Person sent out #{@bot.pokemon_name.pokemon_name.upcase}!
-#{@player.name} sent out #{@player.pokemon_name.pokemon_name.upcase}!
--------------------Battle Start!-------------------
-  
-#{@player.name}'s #{@player.pokemon_name.pokemon_name} - Level #{@player.pokemon_name.level}
-HP: #{@player.pokemon_name.hp}
-Random Person's #{@bot.pokemon_name.pokemon_name} - Level #{@bot.pokemon_name.level}
-HP: #{@bot.pokemon_name.hp}
-  
-#{@player.name}, select your move:
-  
-1. #{@player.pokemon_name.moves[0]}      2. #{@player.pokemon_name.moves[1]}  "
-
-  end
-
-  def attack
-    # Print attack message 'Tortuguita used MOVE!'
-    puts "--------------------------------------------------
-#{@player.pokemon_name.pokemon_name} used #{@train_action.upcase}!"
-    # Accuracy check
-    p @train_action    ############################################################
-    p @train_action_bot #############################################################
-    round_winner = priority_attack(@train_action, @train_action_bot)
-    p round_winner
-    # If the movement is not missed
-    stats_p = @player.pokemon_name ###################
-    stats_b = @bot.pokemon_name ###################
-    missed = false
-    p missed = true if rand(100) > @moves[round_winner][:accuracy]
-    p "missed?" #########################
-    p missed
-    # -- Critical Hit check
-    critical_hit = false
-    p critical_hit = true if rand(16) < 1
-    p "critical_hit" #########################
-    p critical_hit
-    # -- Calculate base damage
-    
-
-    
-    # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
-    # -- Effectiveness check
-    # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
-    # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
-    # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
-    # ---- "It doesn't affect [target name]!" when effectivenes is 0
-    # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
-    # Else, print "But it MISSED!"
-  end
-
-  def priority_attack(train_action, train_action_bot) ######por mientras
-    @moves =  Pokedex::MOVES
-    stats_p = @player.pokemon_name
-    stats_b = @bot.pokemon_name
-
-    if @moves[train_action][:priority] != @moves[train_action_bot][:priority]
-      if @moves[train_action][:priority] > @moves[train_action_bot][:priority]
-        puts "priority"
-        train_action
-      else
-        puts "priority bot"
-        train_action_bot
-      end
-    elsif stats_p.speed != stats_b.speed
-      if stats_p.speed > stats_b.speed
-        puts "speed"
-        puts stats_p.speed 
-        puts stats_b.speed 
-        train_action
-      else
-        puts "speed bot"
-        puts stats_p.speed 
-        puts stats_b.speed 
-        train_action_bot
-      end
-    else 
-      puts "a la dios"
-      [train_action, train_action_bot].sample
-    end
-  end
 end
 
 
