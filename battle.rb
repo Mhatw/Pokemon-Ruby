@@ -1,10 +1,11 @@
 require_relative "pokedex/pokemons.rb"
 class Battle
   # (complete parameters)
-  def initialize(player, bot)
+  def initialize(player, bot, es_brock)
     # Complete this
     @player = player
     @bot = bot
+    @es_brock = es_brock
     winner = start
   end
 
@@ -14,15 +15,11 @@ class Battle
 
     fight
 
-    puts @fight_winner.name
-      # If the winner is the Player increase pokemon stats
-    # gain_experience(@bot.pokemon_name.pokemon, @bot.pokemon_name.level) if @fight_winner == @player
-
   end
 
   def fight
 
-    puts "\nRandom Person sent out #{@bot.pokemon_name.pokemon_name.upcase}!
+    puts "\n#{@bot.name} sent out #{@bot.pokemon_name.pokemon_name.upcase}!
 #{@player.name} sent out #{@player.pokemon_name.pokemon_name.upcase}!
       -------------------Battle Start!-------------------"
     until @player_hp_saved < 1 || @bot_hp_saved < 1 # acordar sacar el loop
@@ -66,8 +63,8 @@ class Battle
       (puts "#{@bot.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@player.pokemon_name.pokemon_name} WINS!")
       @player.pokemon_name.gain_experience(@bot.pokemon_name.pokemon, @bot.pokemon_name.level)
       puts "-------------------Battle Ended!-------------------"
+      puts "Congratulation! You have won the game!\nYou can continue training your Pokemon if you want" if @es_brock == true
       @fight_winner = @player
-
       return false
     end
     true
@@ -81,7 +78,7 @@ class Battle
   def fight_status(player, bot)
     puts "#{@player.name}'s #{@player.pokemon_name.pokemon_name} - Level #{@player.pokemon_name.level}
 HP: #{player}
-Random Person's #{@bot.pokemon_name.pokemon_name} - Level #{@bot.pokemon_name.level}
+#{@bot.name}'s #{@bot.pokemon_name.pokemon_name} - Level #{@bot.pokemon_name.level}
 HP: #{bot}
 
 #{@player.name}, select your move:"

@@ -54,7 +54,7 @@ class Pokemon
       n_exp = ((4 * (@level + 1) ** 3) / 5.0).floor
     end
     if t_exp >= n_exp
-      @experience_points = t_exp - n_exp
+      @experience_points += g_exp
       @level += 1
       puts "#{@pokemon_name} reached level #{@level}!"
       increase_stats
