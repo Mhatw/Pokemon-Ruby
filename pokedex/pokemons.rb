@@ -1,4 +1,5 @@
 module Pokedex
+  attr_reader :type
   POKEMONS = {
     "Bulbasaur" => {
       species: "Bulbasaur",
