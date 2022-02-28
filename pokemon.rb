@@ -61,6 +61,11 @@ class Pokemon
     else
       @experience_points += g_exp
     end
+
+  end
+
+  def effort
+    
   end
 
   def increase_stats

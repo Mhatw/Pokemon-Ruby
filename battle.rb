@@ -98,7 +98,7 @@ HP: #{bot}
     # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
     missed == false ? (puts "And it hit #{@round_arr[3].pokemon_name.pokemon_name} with #{damage} damage") : (puts "But it MISSED!")
     # Else, print "But it MISSED!"
-    missed == false ? damage : 0
+    missed == false ? damage.floor : 0
   end
 
   def missed(i)
@@ -170,3 +170,4 @@ HP: #{bot}
     @bot_hp_saved = @bot.pokemon_name.hp
   end
 end
+#Hola 
