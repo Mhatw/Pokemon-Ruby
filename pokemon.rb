@@ -38,13 +38,39 @@ class Pokemon
     ((2 * (@pokedex[:base_stats][key]) + (@stat_individual_values[key]) + (@stat_effort[key])) * @level / 100 + 5).floor
   end
 
-  def gain_experience
+  def gain_experience(pok, level)
     # (base_experience * level / 7.0).floor
+    g_exp = (Pokedex::POKEMONS[pok][:base_exp] * level / 7.0).floor
+    puts "#{@pokemon_name} gained #{g_exp} experience points"
+    t_exp = @experience_points + g_exp
+    case Pokedex::POKEMONS[@pokemon][:growth_rate]
+    when :slow
+      n_exp = ((5 * (@level + 1) ** 3) / 4.0).floor
+    when :medium_slow
+      n_exp = (6 / 5.0 * ((@level + 1)**3) - 15 * ((@level + 1)**2) + 100 * (@level + 1) - 140).floor
+    when :medium_fast
+      n_exp = ((@level + 1)**3).floor
+    when :fast
+      n_exp = ((4 * (@level + 1) ** 3) / 5.0).floor
+    end
+    if t_exp >= n_exp
+      @experience_points = t_exp - n_exp
+      @level += 1
+      puts "#{@pokemon_name} reached level #{@level}!"
+      increase_stats
+    else
+      @experience_points += g_exp
+    end
   end
 
-  def increase_stats(target)
+  def increase_stats
     # Increase stats base on the defeated pokemon and print message "#[pokemon name] gained [amount] experience points"
-
+    @hp = calc_stats(:hp) + @level + 5
+    @p_attack = calc_stats(:attack)
+    @defense = calc_stats(:defense)
+    @special_attack = calc_stats(:special_attack)
+    @special_defense = calc_stats(:special_defense)
+    @speed = calc_stats(:speed)
     # If the new experience point are enough to level up, do it and print
     # message "#[pokemon name] reached level [level]!" # -- Re-calculate the stat
   end

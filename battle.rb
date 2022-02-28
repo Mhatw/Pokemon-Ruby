@@ -13,7 +13,11 @@ class Battle
     prepare_for_battle
 
     fight
+
+    puts @fight_winner.name
       # If the winner is the Player increase pokemon stats
+    # gain_experience(@bot.pokemon_name.pokemon, @bot.pokemon_name.level) if @fight_winner == @player
+
   end
 
   def fight
@@ -44,19 +48,27 @@ class Battle
         life_loose_l = attack(1, 3, 2)
         receive_damage(life_loose_l, 3)
         puts "--------------------------------------------------"
+        are_you_live
       end
     end
+    return 
   end
 
   def are_you_live
     if !@player_hp_saved.positive?
       puts "--------------------------------------------------"
       (puts "#{@player.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@bot.pokemon_name.pokemon_name} WINS!")
-      false
+      puts "-------------------Battle Ended!-------------------"
+      @fight_winner = @bot
+      return false
     elsif !@bot_hp_saved.positive?
       puts "--------------------------------------------------"
       (puts "#{@bot.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@player.pokemon_name.pokemon_name} WINS!")
-      false
+      @player.pokemon_name.gain_experience(@bot.pokemon_name.pokemon, @bot.pokemon_name.level)
+      puts "-------------------Battle Ended!-------------------"
+      @fight_winner = @player
+
+      return false
     end
     true
   end
