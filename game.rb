@@ -1,10 +1,10 @@
 # require neccesary files
-require_relative "player.rb"
+require_relative "player"
 require_relative "get_input"
-require_relative "pokemon.rb"
-require_relative "pokedex/pokemons.rb"
-require_relative "pokedex/moves.rb"
-require_relative "battle.rb"
+require_relative "pokemon"
+require_relative "pokedex/pokemons"
+require_relative "pokedex/moves"
+require_relative "battle"
 include GetInput
 
 class Game
@@ -38,11 +38,11 @@ In my old age, I have only 3 left, but you can have one! Choose!
 
     # get pokemon
     pokemon = ""
-    until pokemon == "Bulbasaur" || pokemon == "Charmander" || pokemon == "Squirtle"
+    until ["Bulbasaur", "Charmander", "Squirtle"].include?(pokemon)
       print "> "
       pokemon = gets.chomp
     end
-    
+
     puts "You selected #{pokemon.upcase}. Great choice!
 Give your pokemon a name?"
 
@@ -72,10 +72,8 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
         action = menu
       else
         action = get_input
-        
       end
     end
-
     goodbye
   end
 
@@ -87,7 +85,7 @@ Random Person has a #{@bot.pokemon_name.pokemon_name} level #{@bot.pokemon_name.
 What do you want to do now?\n
 1. Fight        2. Leave "
     train_action = ""
-    until train_action == "Fight" || train_action == "Leave"
+    until ["Fight", "Leave"].include?(train_action)
       print "> "
       train_action = gets.chomp
     end
@@ -95,10 +93,8 @@ What do you want to do now?\n
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
       algo_saldra = Battle.new(@player, @bot, false) ###################
     end
-    # Random Person has a Onix level 4
-    # What do you want to do now?"
   end
-  
+
   def challenge_leader
     # Complete this
     @brock = Brock.new
@@ -107,7 +103,7 @@ Brock has a Onix level 10
 What do you want to do now?\n
 1. Fight        2. Leave "
     train_action = ""
-    until train_action == "Fight" || train_action == "Leave"
+    until ["Fight", "Leave"].include?(train_action)
       print "> "
       train_action = gets.chomp
     end
@@ -115,15 +111,13 @@ What do you want to do now?\n
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
       Battle.new(@player, @brock, true) ###################
     end
-
-
   end
 
-  def show_stats(player)
+  def show_stats(_player)
     stats = @player.pokemon_name
     puts "\n#{stats.pokemon_name}"
     puts "Kind: #{@player.pokemon}"
-    puts "Level: #{stats.level}" #jalar el lvl
+    puts "Level: #{stats.level}" # jalar el lvl
     puts "Type: #{stats.type}"
     puts "Stats:"
     puts "HP: #{stats.hp}"
@@ -138,18 +132,16 @@ What do you want to do now?\n
   def goodbye
     # Complete this
     puts "Thanks for playing Pokemon Ruby
-This game was created with love by: [your names]"
+This game was created with love by: [Leydy, Carlos, Jesus, Cristian]"
   end
 
   def menu
     # Complete this
     puts "-----------------------Menu-----------------------
-    
+
 1. Stats        2. Train        3. Leader       4. Exit "
   end
-  
 end
-
 
 game = Game.new
 game.start
