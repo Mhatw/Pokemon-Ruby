@@ -12,9 +12,7 @@ class Battle
   def start
     # Prepare the Battle (print messages and prepare pokemons)
     prepare_for_battle
-
     fight
-
   end
 
   def fight
@@ -63,6 +61,8 @@ class Battle
       (puts "#{@bot.pokemon_name.pokemon_name} FAINTED!\n#{"-" * 50}\n#{@player.pokemon_name.pokemon_name} WINS!")
       @player.pokemon_name.gain_experience(@bot.pokemon_name.pokemon, @bot.pokemon_name.level)
       puts "-------------------Battle Ended!-------------------"
+      #aumentar
+      @player.pokemon_name.effort(@round_arr[3].pokemon_name.pokemon)
       puts "Congratulation! You have won the game!\nYou can continue training your Pokemon if you want" if @es_brock == true
       @fight_winner = @player
       return false

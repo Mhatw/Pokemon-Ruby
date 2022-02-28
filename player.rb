@@ -13,9 +13,6 @@ class Player
     @pokemon_name = Pokemon.new(pokemon_name, pokemon, level)
   end
 
-  def select_move
-    # Complete this
-  end
 end
 
 # Create a class Bot that inherits from Player and override the select_move method

@@ -72,10 +72,8 @@ When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
         action = menu
       else
         action = get_input
-        
       end
     end
-
     goodbye
   end
 
@@ -95,8 +93,6 @@ What do you want to do now?\n
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
       algo_saldra = Battle.new(@player, @bot, false) ###################
     end
-    # Random Person has a Onix level 4
-    # What do you want to do now?"
   end
   
   def challenge_leader
@@ -115,8 +111,6 @@ What do you want to do now?\n
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
       Battle.new(@player, @brock, true) ###################
     end
-
-
   end
 
   def show_stats(player)
@@ -149,7 +143,6 @@ This game was created with love by: [your names]"
   end
   
 end
-
 
 game = Game.new
 game.start
