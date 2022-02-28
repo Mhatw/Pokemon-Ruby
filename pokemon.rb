@@ -3,13 +3,13 @@ require_relative "pokedex/pokemons.rb"
 class Pokemon
   attr_reader :pokemon_name, :pokemon, :level, :type, :hp, :p_attack, :defense, :moves
   attr_reader :special_attack, :special_defense, :speed, :experience_points, :stat_individual_values, :stat_effort
-  attr_writer :level, :hp
+  attr_accessor :hp, :level
   # include neccesary modules
 
   # (complete parameters)
-  def initialize (pokemon_name, pokemon, level)
+  def initialize(pokemon_name, pokemon, level)
     # Retrieve pokemon info from Pokedex and set instance variables
-    @pokedex =  Pokedex::POKEMONS[pokemon]
+    @pokedex = Pokedex::POKEMONS[pokemon]
     @pokemon_name = pokemon_name
     @pokemon = pokemon
     @level = level
@@ -19,11 +19,11 @@ class Pokemon
     @stat_effort = { hp: 0, attack: 0, defense: 0, special_attack: 0, special_defense: 0, speed: 0 }
 
     @hp = calc_stats(:hp) + @level + 5
-    @p_attack = calc_stats(:attack)     
-    @defense = calc_stats(:defense)  
-    @special_attack = calc_stats(:special_attack)  
-    @special_defense = calc_stats(:special_defense)  
-    @speed = calc_stats(:speed)  
+    @p_attack = calc_stats(:attack)
+    @defense = calc_stats(:defense)
+    @special_attack = calc_stats(:special_attack)
+    @special_defense = calc_stats(:special_defense)
+    @speed = calc_stats(:speed)
     @experience_points = 0
     @moves = @pokedex[:moves]
     # Calculate Individual Values and store them in instance variable
@@ -35,12 +35,11 @@ class Pokemon
   end
 
   def calc_stats(key)
-    ((2 * @pokedex[:base_stats][key] + @stat_individual_values[key] + @stat_effort[key]) * @level / 100 + 5).floor
+    ((2 * (@pokedex[:base_stats][key]) + (@stat_individual_values[key]) + (@stat_effort[key])) * @level / 100 + 5).floor
   end
 
   def gain_experience
     # (base_experience * level / 7.0).floor
-
   end
 
   def increase_stats(target)
@@ -69,7 +68,7 @@ class Pokemon
   #     else
   #       train_action_bot
   #     end
-  #   else 
+  #   else
   #     [train_action, train_accion_bot].sample
   #   end
 end

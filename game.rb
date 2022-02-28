@@ -95,12 +95,10 @@ What do you want to do now?\n
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
       algo_saldra = Battle.new(@player, @bot) ###################
     end
-
-# Random Person has a Onix level 4
-# What do you want to do now?"
-
+    # Random Person has a Onix level 4
+    # What do you want to do now?"
   end
-
+  
   def challenge_leader
     # Complete this
   end
