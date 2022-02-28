@@ -1,5 +1,4 @@
 module GetInput
-
   def get_input
     input = ""
     while input.empty?

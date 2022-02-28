@@ -1,5 +1,6 @@
 module Pokedex
   attr_reader :type
+
   MOVES = {
     "tackle" => {
       name: "tackle",
