@@ -94,7 +94,7 @@ HP: #{bot}
     # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
     base_damage *= 1.5 if critical_hit == true
     # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
-    damage = (base_damage * effectiveness)
+    damage = (base_damage * effectiveness(ataque, p_loose))
     # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
     missed == false ? (puts "And it hit #{@round_arr[3].pokemon_name.pokemon_name} with #{damage} damage") : (puts "But it MISSED!")
     # Else, print "But it MISSED!"
@@ -105,12 +105,23 @@ HP: #{bot}
     rand(100) > @moves[@round_arr[i]][:accuracy]
   end
 
-  # -- Effectiveness check
-  def effectiveness
-    # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
-    # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
-    # ---- "It doesn't affect [target name]!" when effectivenes is 0
-    1  # give a multiplier
+  # -- Effectiveness cseheck
+  def effectiveness(ataque, perdedor)
+    p_receive = Pokedex::POKEMONS[@round_arr[perdedor].pokemon_name.pokemon][:type]
+    c = Pokedex::TYPE_MULTIPLIER.select{|x| x[:user] == Pokedex::MOVES[@round_arr[ataque]][:type] && x[:target] == p_receive[0] }
+    a = Pokedex::TYPE_MULTIPLIER.select{|x| x[:user] == Pokedex::MOVES[@round_arr[ataque]][:type] && x[:target] == p_receive[1] }
+    # { user: :normal, target: :rock, multiplier: 0.5 }
+    c.nil? || c.empty? ? c = 1 : c = c[0][:multiplier]
+    a.nil? || a.empty? ? a = 1 : a = a[0][:multiplier]
+    efectividad = c * a 
+   if efectividad <= 0.5 && efectividad != 0
+    puts "It's not very effective..."
+   elsif efectividad >= 1.5
+    puts "It's super effective!"
+   elsif efectividad == 0
+    puts "It doesn't affect #{perdedor.pokemon_name.pokemon_name}!"
+   end
+    return efectividad  # give a multiplier
   end
 
   # -- Calculate base damage 2
@@ -127,7 +138,7 @@ HP: #{bot}
   def critical_method
     if rand(16) < 1
       puts "It was CRITICAL hit!"
-      true
+      return true
     end
     false
   end

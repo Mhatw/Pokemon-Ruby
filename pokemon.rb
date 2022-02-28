@@ -82,19 +82,4 @@ class Pokemon
   #   stats_p = @player.pokemon_name
   #   stats_b = @bot.pokemon_name
 
-  #   if moves[train_action][:priority] != moves[train_action_bot][:priority]
-  #     if moves[train_action][:priority] > moves[train_action_bot][:priority]
-  #       train_action
-  #     else
-  #       train_action_bot
-  #     end
-  #   elsif stats_p.speed != stats_b.speed
-  #     if stats_p.speed > stats_b.speed
-  #       train_action
-  #     else
-  #       train_action_bot
-  #     end
-  #   else
-  #     [train_action, train_accion_bot].sample
-  #   end
 end
