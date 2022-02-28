@@ -54,7 +54,7 @@ class Pokemon
       n_exp = ((4 * (@level + 1) ** 3) / 5.0).floor
     end
     if t_exp >= n_exp
-      @experience_points = t_exp - n_exp
+      @experience_points += g_exp
       @level += 1
       puts "#{@pokemon_name} reached level #{@level}!"
       increase_stats
@@ -82,19 +82,4 @@ class Pokemon
   #   stats_p = @player.pokemon_name
   #   stats_b = @bot.pokemon_name
 
-  #   if moves[train_action][:priority] != moves[train_action_bot][:priority]
-  #     if moves[train_action][:priority] > moves[train_action_bot][:priority]
-  #       train_action
-  #     else
-  #       train_action_bot
-  #     end
-  #   elsif stats_p.speed != stats_b.speed
-  #     if stats_p.speed > stats_b.speed
-  #       train_action
-  #     else
-  #       train_action_bot
-  #     end
-  #   else
-  #     [train_action, train_accion_bot].sample
-  #   end
 end

@@ -28,3 +28,12 @@ class Bot < Player
     @pokemon_name = Pokemon.new(@pokemon, @pokemon, level)
   end
 end
+
+class Brock < Player
+  def initialize
+    pokedex =  Pokedex::POKEMONS
+    @name = "Brock"
+    @pokemon = pokedex["Onix"]
+    @pokemon_name = Pokemon.new("Onix", "Onix", 10)
+  end
+end

@@ -93,7 +93,7 @@ What do you want to do now?\n
     end
     if train_action == "Fight"
       # @player.pokemon_name.prepare_for_battle(@player, @bot)
-      algo_saldra = Battle.new(@player, @bot) ###################
+      algo_saldra = Battle.new(@player, @bot, false) ###################
     end
     # Random Person has a Onix level 4
     # What do you want to do now?"
@@ -101,6 +101,22 @@ What do you want to do now?\n
   
   def challenge_leader
     # Complete this
+    @brock = Brock.new
+    puts "\n#{@player.name} challenge the Gym Leader Brock for a fight!
+Brock has a Onix level 10
+What do you want to do now?\n
+1. Fight        2. Leave "
+    train_action = ""
+    until train_action == "Fight" || train_action == "Leave"
+      print "> "
+      train_action = gets.chomp
+    end
+    if train_action == "Fight"
+      # @player.pokemon_name.prepare_for_battle(@player, @bot)
+      Battle.new(@player, @brock, true) ###################
+    end
+
+
   end
 
   def show_stats(player)
